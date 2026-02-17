@@ -2,45 +2,37 @@ name: Deploy Angular to VPS
 
 on:
   push:
-    branches: [ "main" ]  # Se ejecuta al hacer push a main
+    branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout del código
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Configurar Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
 
-      # 3. Instalar dependencias
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install -g @angular/cli
+          npm ci
 
-      # 4. Instalar Angular CLI globalmente
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
-      # 5. Compilar en producción
       - name: Build production
         run: ng build --configuration production
 
-      # 6. Copiar archivos al VPS mediante SSH
       - name: Deploy to VPS
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "./dist/*"
-          target: "/var/www/html/examen"
-          strip_components: 1  # Elimina 'dist' del path
-          rm: true  # Borra archivos antiguos
+          # 👇 IMPORTANTE: Apunta directamente a browser/
+          source: "dist/despliegue-automatico-prueba-trimestral-2-pgr/browser/*"
+          target: "/var/www/html/examen/"
+          strip_components: 4  # Elimina las carpetas superiores
