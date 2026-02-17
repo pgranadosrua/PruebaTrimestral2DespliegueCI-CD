@@ -32,6 +32,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "dist/Despliegue-automatico-prueba-trimestral-2-PGR/browser/*"
+          source: "dist/"
           target: "/var/www/html/examen/"
-          strip_components: 4 
+          strip_components: 4
