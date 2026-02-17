@@ -33,6 +33,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           # 👇 IMPORTANTE: Apunta directamente a browser/
-          source: "dist/despliegue-automatico-prueba-trimestral-2-pgr/browser/*"
+          source: "dist/Despliegue-automatico-prueba-trimestral-2-PGR/browser/*"
           target: "/var/www/html/examen/"
           strip_components: 4  # Elimina las carpetas superiores
